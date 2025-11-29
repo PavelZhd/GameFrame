@@ -4,13 +4,18 @@ using GameFrame.Utils;
 
 namespace GameFrame.DI
 {
-    public interface IScope: ICompositeDisposable
+    public interface IRegistrableScope : ICompositeDisposable
     {
         void RegisterInstance<T>(T instance);
-        void RegisterDisposable<T>(T instance) where T: IDisposable;
-        void RegisterConstructor<T>(Func<IScope, T> constructor);
-        IScope CreateChild();
+        void RegisterDisposable<T>(T instance) where T : IDisposable;
+        void RegisterConstructor<T>(Func<IResolvingScope, T> constructor);
+    }
+    public interface IResolvingScope {
         T Resolve<T>();
+    }
+    public interface IScope: IRegistrableScope, IResolvingScope
+    {
+        IScope CreateChild();        
     }
     public class Scope : IScope
     {
@@ -53,7 +58,7 @@ namespace GameFrame.DI
             _disposables.Clear();
         }
 
-        public void RegisterConstructor<T>(Func<IScope, T> constructor)
+        public void RegisterConstructor<T>(Func<IResolvingScope, T> constructor)
         {
             _constructors.Add(typeof(T), s => constructor(s));
         }

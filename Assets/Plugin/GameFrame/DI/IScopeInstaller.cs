@@ -2,6 +2,11 @@ namespace GameFrame.DI
 {    
     public interface IScopeInstaller 
     {
-        void Install(IScope scope);
+        void Install(IRegistrableScope scope);
+    }
+
+    public interface IScopeInjector
+    {
+        void Inject(IResolvingScope scope);
     }
 }

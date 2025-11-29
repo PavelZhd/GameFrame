@@ -1,8 +1,9 @@
+using GameFrame.DI;
 using UnityEngine;
-namespace GameFrame.DI
+namespace GameFrame.Unity.DI
 {
     public abstract class ScriptableObjectScopeInstaller : ScriptableObject, IScopeInstaller
     {
-        public abstract void Install(IScope scope);
+        public abstract void Install(IRegistrableScope scope);
     }
 }
